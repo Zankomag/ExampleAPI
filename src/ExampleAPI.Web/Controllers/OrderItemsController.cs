@@ -6,14 +6,17 @@ using ExampleAPI.Web.Services.Abstractions;
 using ExampleAPI.Web.Communication;
 using System.Collections.Generic;
 using ExampleAPI.Web.Resources.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ExampleAPI.Web.Controllers {
 
 	[ApiController]
 	[Route("api/[controller]")]
+	[Authorize(policy: "IsSub")]
 	[Produces("application/json")]
 	[Consumes("application/json")]
 	[ProducesResponseType(typeof(Response<object>), 400)]
+	[ProducesResponseType(typeof(Response<object>), 401)]
 	[ProducesResponseType(typeof(Response<object>), 500)]
 	public class OrderItemsController : ControllerBase {
 
