@@ -6,6 +6,9 @@ using Newtonsoft.Json;
 namespace ExampleAPI.Web.Communication {
 
 	public class Response<TResult> {
+
+		public static readonly Response<object> BadRequestResposne = new Response<object>(400, "Bad Request");
+
 		public bool Success { get; private set; }
 
 		[JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

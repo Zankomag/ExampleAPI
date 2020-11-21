@@ -1,31 +1,30 @@
-using ExampleAPI.Data;
-using ExampleAPI.Repository.Abstractions;
-using ExampleAPI.Repository;
+using AutoMapper;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
-using Newtonsoft.Json;
-using AutoMapper;
-using ExampleAPI.Web.Services.Abstractions;
-using ExampleAPI.Web.Services;
-using ExampleAPI.Web.Communication;
-using ExampleAPI.Web.Extensions;
-using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using System.IO;
-using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using ExampleAPI.Data;
+using ExampleAPI.Repository;
+using ExampleAPI.Repository.Abstractions;
+using ExampleAPI.Web.Services;
+using ExampleAPI.Web.Extensions;
+using ExampleAPI.Web.Communication;
 using ExampleAPI.Web.Authorization;
+using ExampleAPI.Web.Services.Abstractions;
 
 namespace ExampleAPI.Web {
 	public class Startup {
@@ -43,7 +42,6 @@ namespace ExampleAPI.Web {
 				options.UseSqlite(connection)
 				.UseLoggerFactory(LoggerFactory.Create(config => config.AddConsole()))
 			);
-
 			SecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]));
 
 			
@@ -129,21 +127,29 @@ namespace ExampleAPI.Web {
 
 			services.AddCors();
 
-			services.AddControllers().AddNewtonsoftJson(options => {
-				options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-				options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-			});
+			services.AddControllers()
+				.AddNewtonsoftJson(options => {
+					options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+					options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;})
+				.ConfigureApiBehaviorOptions(options => {
+					//Override default model state error response
+					options.InvalidModelStateResponseFactory = context => {
+						if (context.ModelState.ErrorCount > 0) {
+							string messages = string.Join("; ", context.ModelState.Values
+								.SelectMany(x => x.Errors).Select(x => x.ErrorMessage));
+							return (ObjectResult)new Response<object>(messages);
+						}
+						return (ObjectResult)Response<object>.BadRequestResposne;
+					};
+				});
 
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
 			if (env.IsDevelopment()) {
-				app.UseDeveloperExceptionPage();
 				app.UseCors();
 			}
-
-			
 
 			app.UseSwagger();
 			app.UseSwaggerUI(c => {

@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using ExampleAPI.Data;
 using ExampleAPI.Data.Models;
-using ExampleAPI.Repository;
 using ExampleAPI.Repository.Abstractions;
 using ExampleAPI.Web.Communication;
 using ExampleAPI.Web.Communication.Extensions;
@@ -11,7 +9,6 @@ using ExampleAPI.Web.Services.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using static System.Net.HttpStatusCode;
 
@@ -19,7 +16,7 @@ namespace ExampleAPI.Web.Services {
 	public class OrderItemService : IOrderItemService {
 
 		private readonly IUnitOfWork workUnit;
-		private IMapper mapper;
+		private readonly IMapper mapper;
 
 		public OrderItemService(IUnitOfWork workUnit, IMapper mapper) {
 			this.workUnit = workUnit;
