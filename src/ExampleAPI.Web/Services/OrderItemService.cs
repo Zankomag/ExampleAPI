@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using static System.Net.HttpStatusCode;
 
@@ -27,8 +28,9 @@ namespace ExampleAPI.Web.Services {
 		}
 
 		public async Task<Response<IEnumerable<OrderItem>>> GetAllAsync() {
-			try {
+			try { 
 				var orderItems = await workUnit.OrderItemRepository.GetAsync(includeAllProperties: true);
+				if(!orderItems.Any()) return "Not found";
 				return orderItems.AsResponse();
 			} catch(Exception ex) {
 				logger.LogError(ex, "Exception thrown while accessing database");
@@ -39,6 +41,7 @@ namespace ExampleAPI.Web.Services {
 		public async Task<Response<IEnumerable<OrderItem>>> GetAllWithoutDetailsAsync() {
 			try {
 				var orderItems = await workUnit.OrderItemRepository.GetWithoutDetailsAsync();
+				if (!orderItems.Any()) return "Not found";
 				return orderItems.AsResponse();
 			} catch(Exception ex) {
 				logger.LogError(ex, "Exception thrown while accessing database");
@@ -112,9 +115,8 @@ namespace ExampleAPI.Web.Services {
 		public async Task<Response<IEnumerable<object>>> GetGroupedByDescriptionAsync() {
 			try {
 				var result = await workUnit.OrderItemRepository.GetGroupedByDetails();
-				return result != null ?
-					new Response<IEnumerable<object>>(result) :
-					"Not found";
+				if (!result.Any()) return "Not found";
+				return new Response<IEnumerable<object>>(result);
 			} catch(Exception ex) {
 				logger.LogError(ex, "Exception thrown while accessing database");
 				return InternalServerError;
