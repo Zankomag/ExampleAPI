@@ -7,6 +7,7 @@ using ExampleAPI.Web.Resources;
 using ExampleAPI.Web.Resources.Extensions;
 using ExampleAPI.Web.Services.Abstractions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -17,10 +18,12 @@ namespace ExampleAPI.Web.Services {
 
 		private readonly IUnitOfWork workUnit;
 		private readonly IMapper mapper;
+		private readonly ILogger logger;
 
-		public OrderItemService(IUnitOfWork workUnit, IMapper mapper) {
+		public OrderItemService(IUnitOfWork workUnit, IMapper mapper, ILogger<OrderItemService> logger) {
 			this.workUnit = workUnit;
 			this.mapper = mapper;
+			this.logger = logger;
 		}
 
 		public async Task<Response<IEnumerable<OrderItem>>> GetAllAsync() {
@@ -28,7 +31,7 @@ namespace ExampleAPI.Web.Services {
 				var orderItems = await workUnit.OrderItemRepository.GetAsync(includeAllProperties: true);
 				return orderItems.AsResponse();
 			} catch(Exception ex) {
-				//Log exception
+				logger.LogError(ex, "Exception thrown while accessing database");
 				return InternalServerError;
 			}
 		}
@@ -38,7 +41,7 @@ namespace ExampleAPI.Web.Services {
 				var orderItems = await workUnit.OrderItemRepository.GetWithoutDetailsAsync();
 				return orderItems.AsResponse();
 			} catch(Exception ex) {
-				//Log exception
+				logger.LogError(ex, "Exception thrown while accessing database");
 				return InternalServerError;
 			}
 		}
@@ -52,7 +55,7 @@ namespace ExampleAPI.Web.Services {
 					return "Record not found";
 
 			} catch(Exception ex) {
-				//Log exception
+				logger.LogError(ex, "Exception thrown while accessing database");
 				return InternalServerError;
 			}
 		}
@@ -64,7 +67,7 @@ namespace ExampleAPI.Web.Services {
 				await workUnit.SaveAsync();
 				return orderItem;
 			} catch(Exception ex) {
-				//Log exception
+				logger.LogError(ex, "Exception thrown while accessing database");
 				return InternalServerError;
 			}
 		}
@@ -84,7 +87,7 @@ namespace ExampleAPI.Web.Services {
 			} catch (DbUpdateConcurrencyException) {
 				return "Record not found";
 			} catch (Exception ex) {
-				//Log exception
+				logger.LogError(ex, "Exception thrown while accessing database");
 				return InternalServerError;
 			}
 		}
@@ -101,7 +104,7 @@ namespace ExampleAPI.Web.Services {
 			} catch(DbUpdateConcurrencyException) {
 				return "Record not found";
 			} catch(Exception ex) {
-				//Log exception
+				logger.LogError(ex, "Exception thrown while accessing database");
 				return InternalServerError;
 			}
 		}
@@ -113,7 +116,7 @@ namespace ExampleAPI.Web.Services {
 					new Response<IEnumerable<object>>(result) :
 					"Not found";
 			} catch(Exception ex) {
-				//Log exception
+				logger.LogError(ex, "Exception thrown while accessing database");
 				return InternalServerError;
 			}
 		}

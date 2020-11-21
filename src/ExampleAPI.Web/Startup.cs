@@ -1,3 +1,4 @@
+using Serilog;
 using AutoMapper;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +10,6 @@ using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
@@ -38,10 +38,12 @@ namespace ExampleAPI.Web {
 		public void ConfigureServices(IServiceCollection services) {
 
 			string connection = Configuration.GetConnectionString("InternetShopConnectionString");
-			services.AddDbContext<InternetShopDbContext>(options => 
-				options.UseSqlite(connection)
-				.UseLoggerFactory(LoggerFactory.Create(config => config.AddConsole()))
-			);
+			services.AddDbContext<InternetShopDbContext>(options => {
+				options.UseSqlite(connection);
+				////Adding "Microsoft.EntityFrameworkCore": "Information" 
+				////to Serilog MinimumLevel in config  allows to get more convenient output
+				//options.LogTo(Log.Information, minimumLevel: LogLevel.Information);
+			});
 			SecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]));
 
 			
@@ -52,8 +54,7 @@ namespace ExampleAPI.Web {
 			var token = new JwtSecurityTokenHandler().WriteToken(
 				new JwtSecurityToken(claims: claims,
 					signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)));
-			System.Console.WriteLine(token);
-
+			Log.Information("Testing JWT token:\n{0}", token);
 			services.AddAuthentication(options => {
 				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
 				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -69,7 +70,7 @@ namespace ExampleAPI.Web {
 					ValidateIssuerSigningKey = true,
 					//To prevent abusing other algorithms
 					ValidAlgorithms = new List<string>() { SecurityAlgorithms.HmacSha256 },
-
+					
 				};
 				options.IncludeErrorDetails = false;
 			});
@@ -87,7 +88,6 @@ namespace ExampleAPI.Web {
 							return true;
 						return false;
 					}).Build());
-				
 			});
 
 			
@@ -159,6 +159,10 @@ namespace ExampleAPI.Web {
 
 			app.UseHttpsRedirection();
 			app.UseHsts();
+
+			//To log only Warning or greater requests
+			//Set "Serilog.AspNetCore": "Warning" in Serilog MinimumLevel Config
+			app.UseSerilogRequestLogging();
 
 			app.UseRouting();
 
