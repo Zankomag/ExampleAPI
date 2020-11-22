@@ -17,10 +17,10 @@ namespace ExampleAPI.Web.Extensions {
 					.Replace($"`{genericArgumentIds.Count().ToString()}", string.Empty);
 
 				if(type.GetGenericTypeDefinition() == typeof(System.Collections.Generic.IEnumerable<>)) 
-					return new StringBuilder(genericArgumentIds[0]).Append("[]").ToString();
+					return new StringBuilder(genericArgumentIds[0]).Append("List").ToString();
 
 				if(type.GetGenericTypeDefinition() == typeof(Communication.Response<>)) {
-					return new StringBuilder(genericArgumentIds[0]).Append(" Response").ToString();
+					return new StringBuilder(genericArgumentIds[0]).Append("Response").ToString();
 				}
 
 				return sb.Append(string.Format("<{0}>", string.Join(",", genericArgumentIds))).ToString();

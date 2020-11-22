@@ -98,7 +98,7 @@ namespace ExampleAPI.Web {
 				c.CustomSchemaIds(type => type.FullTypeName().Replace("Resource", string.Empty));
 				c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme() {
 					Description = @"JWT Authorization header using the Bearer scheme.
-						Enter 'Bearer <token>' in the text input below",
+						Enter 'Bearer [token]' in the text input below",
 					Name = "Authorization",
 					In = ParameterLocation.Header,
 					Type = SecuritySchemeType.ApiKey,
@@ -148,7 +148,7 @@ namespace ExampleAPI.Web {
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
 			if (env.IsDevelopment()) {
-				app.UseCors();
+
 			}
 
 			app.UseSwagger();

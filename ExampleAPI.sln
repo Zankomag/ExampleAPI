@@ -3,14 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleAPI.Web", "ExampleAPI.Web\ExampleAPI.Web.csproj", "{D69227E7-A7A8-4C63-829A-93CB2F4A7407}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleAPI.Web", "src\ExampleAPI.Web\ExampleAPI.Web.csproj", "{D69227E7-A7A8-4C63-829A-93CB2F4A7407}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1890F422-2745-4018-878B-F64B92BCA961} = {1890F422-2745-4018-878B-F64B92BCA961}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleAPI.Data", "ExampleAPI.Data\ExampleAPI.Data.csproj", "{BC21C9C6-ADC4-4DDF-BD41-F03C030DAD15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleAPI.Data", "src\ExampleAPI.Data\ExampleAPI.Data.csproj", "{BC21C9C6-ADC4-4DDF-BD41-F03C030DAD15}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleAPI.Repository", "ExampleAPI.Repository\ExampleAPI.Repository.csproj", "{1890F422-2745-4018-878B-F64B92BCA961}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleAPI.Repository", "src\ExampleAPI.Repository\ExampleAPI.Repository.csproj", "{1890F422-2745-4018-878B-F64B92BCA961}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
