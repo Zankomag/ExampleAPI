@@ -28,11 +28,11 @@ namespace ExampleAPI.Web.Services {
 		}
 
 		public async Task<Response<IEnumerable<OrderItem>>> GetAllAsync() {
-			try { 
+			try {
 				var orderItems = await workUnit.OrderItemRepository.GetAsync(includeAllProperties: true);
-				if(!orderItems.Any()) return "Not found";
+				if (!orderItems.Any()) return "Not found";
 				return orderItems.AsResponse();
-			} catch(Exception ex) {
+			} catch (Exception ex) {
 				logger.LogError(ex, "Exception thrown while accessing database");
 				return InternalServerError;
 			}
@@ -43,7 +43,7 @@ namespace ExampleAPI.Web.Services {
 				var orderItems = await workUnit.OrderItemRepository.GetWithoutDetailsAsync();
 				if (!orderItems.Any()) return "Not found";
 				return orderItems.AsResponse();
-			} catch(Exception ex) {
+			} catch (Exception ex) {
 				logger.LogError(ex, "Exception thrown while accessing database");
 				return InternalServerError;
 			}
@@ -57,7 +57,7 @@ namespace ExampleAPI.Web.Services {
 				else
 					return "Record not found";
 
-			} catch(Exception ex) {
+			} catch (Exception ex) {
 				logger.LogError(ex, "Exception thrown while accessing database");
 				return InternalServerError;
 			}
@@ -69,7 +69,7 @@ namespace ExampleAPI.Web.Services {
 				await workUnit.OrderItemRepository.AddAsync(orderItem);
 				await workUnit.SaveAsync();
 				return orderItem;
-			} catch(Exception ex) {
+			} catch (Exception ex) {
 				logger.LogError(ex, "Exception thrown while accessing database");
 				return InternalServerError;
 			}
@@ -96,17 +96,17 @@ namespace ExampleAPI.Web.Services {
 		}
 
 		public async Task<OkResponse> DeleteAsync(int id) {
-			if(id <= 0) return "Record not found";
+			if (id <= 0) return "Record not found";
 
-			if(!await workUnit.OrderItemRepository.DeleteAsync(id))
+			if (!await workUnit.OrderItemRepository.DeleteAsync(id))
 				return "Record not found";
 
 			try {
 				await workUnit.SaveAsync();
 				return new OkResponse();
-			} catch(DbUpdateConcurrencyException) {
+			} catch (DbUpdateConcurrencyException) {
 				return "Record not found";
-			} catch(Exception ex) {
+			} catch (Exception ex) {
 				logger.LogError(ex, "Exception thrown while accessing database");
 				return InternalServerError;
 			}
@@ -117,7 +117,7 @@ namespace ExampleAPI.Web.Services {
 				var result = await workUnit.OrderItemRepository.GetGroupedByDetails();
 				if (!result.Any()) return "Not found";
 				return new Response<IEnumerable<object>>(result);
-			} catch(Exception ex) {
+			} catch (Exception ex) {
 				logger.LogError(ex, "Exception thrown while accessing database");
 				return InternalServerError;
 			}

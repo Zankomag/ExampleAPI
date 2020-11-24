@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using System.Collections.Generic;
 
 namespace ExampleAPI.Web.Extensions {
 	public static class SwaggerExtensions {
@@ -16,8 +17,11 @@ namespace ExampleAPI.Web.Extensions {
 				var sb = new StringBuilder(typeName)
 					.Replace($"`{genericArgumentIds.Count().ToString()}", string.Empty);
 
-				if(type.GetGenericTypeDefinition() == typeof(System.Collections.Generic.IEnumerable<>)) 
+				if (type.GetGenericTypeDefinition() == typeof(IEnumerable<>)
+					|| type.GetGenericTypeDefinition() == typeof(IList<>)
+					|| type.GetGenericTypeDefinition() == typeof(List<>)) {
 					return new StringBuilder(genericArgumentIds[0]).Append("List").ToString();
+				}
 
 				if(type.GetGenericTypeDefinition() == typeof(Communication.Response<>)) {
 					return new StringBuilder(genericArgumentIds[0]).Append("Response").ToString();
@@ -27,7 +31,7 @@ namespace ExampleAPI.Web.Extensions {
 			}
 
 			
-			return typeName;
+			return typeName.Replace("Resource", string.Empty);
 		}
 	}
 }

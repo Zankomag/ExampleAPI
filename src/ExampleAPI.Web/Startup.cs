@@ -95,7 +95,7 @@ namespace ExampleAPI.Web {
 
 			services.AddSwaggerGen(c => {
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Example API", Version = "1.0" });
-				c.CustomSchemaIds(type => type.FullTypeName().Replace("Resource", string.Empty));
+				c.CustomSchemaIds(type => type.FullTypeName());
 				c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme() {
 					Description = @"JWT Authorization header using the Bearer scheme.
 						Enter 'Bearer [token]' in the text input below",

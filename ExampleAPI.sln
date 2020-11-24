@@ -12,6 +12,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleAPI.Data", "src\Exam
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleAPI.Repository", "src\ExampleAPI.Repository\ExampleAPI.Repository.csproj", "{1890F422-2745-4018-878B-F64B92BCA961}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleAPI.Web.Tests", "test\ExampleAPI.Web.Tests\ExampleAPI.Web.Tests.csproj", "{E67C3A9B-82B3-46A1-A1CD-0D85FCCBDFDD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{08AC9E78-F5A6-46EC-9586-A3679C59313C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{EACFC618-6419-46A3-A0E1-5675DAD3C45C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,9 +36,19 @@ Global
 		{1890F422-2745-4018-878B-F64B92BCA961}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1890F422-2745-4018-878B-F64B92BCA961}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1890F422-2745-4018-878B-F64B92BCA961}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E67C3A9B-82B3-46A1-A1CD-0D85FCCBDFDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E67C3A9B-82B3-46A1-A1CD-0D85FCCBDFDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E67C3A9B-82B3-46A1-A1CD-0D85FCCBDFDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E67C3A9B-82B3-46A1-A1CD-0D85FCCBDFDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D69227E7-A7A8-4C63-829A-93CB2F4A7407} = {08AC9E78-F5A6-46EC-9586-A3679C59313C}
+		{BC21C9C6-ADC4-4DDF-BD41-F03C030DAD15} = {08AC9E78-F5A6-46EC-9586-A3679C59313C}
+		{1890F422-2745-4018-878B-F64B92BCA961} = {08AC9E78-F5A6-46EC-9586-A3679C59313C}
+		{E67C3A9B-82B3-46A1-A1CD-0D85FCCBDFDD} = {EACFC618-6419-46A3-A0E1-5675DAD3C45C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ADA56933-5E41-4F1A-A804-201D16A83CED}

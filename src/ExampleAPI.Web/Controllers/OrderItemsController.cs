@@ -60,7 +60,7 @@ namespace ExampleAPI.Web.Controllers {
 		[Produces(typeof(Response<OrderItemResource>))]
 		public async Task<ObjectResult> Post([FromBody] OrderItemInputResource inputOrderItem) {
 			var response = await service.AddAsync(inputOrderItem);
-			return response;
+			return response.AsResource(mapper);
 		}
 
 		//PUT: api/OrderItems/47
