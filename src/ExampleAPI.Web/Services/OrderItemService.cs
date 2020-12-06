@@ -67,6 +67,8 @@ namespace ExampleAPI.Web.Services {
 			var orderItem = inputOrderItem.AsModel(mapper);
 			try {
 				await workUnit.OrderItemRepository.AddAsync(orderItem);
+				//After SaveAsync() orderItem entity has updated automatically (its Id),
+				//we don't need to retrieve it from DB
 				await workUnit.SaveAsync();
 				return orderItem;
 			} catch (Exception ex) {
