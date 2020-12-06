@@ -36,7 +36,7 @@ namespace ExampleAPI.Web.Tests {
 			yield return new object[] { new Response<OrderItemResource>() };
 			yield return new object[] { new Response<OrderItemResource>(new OrderItemResource()) };
 			yield return new object[] { new Response<OrderItemResource>("Not Found") };
-			yield return new object[] { new Response<OrderItemResource>(404, "Noy Found") };
+			yield return new object[] { new Response<OrderItemResource>(404, "Not Found") };
 		}
 
 		[Theory]
