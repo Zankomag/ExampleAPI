@@ -51,7 +51,6 @@ namespace ExampleAPI.Web.Tests {
 
 		[Fact]
 		public void Constructor_ShouldThrow_When_TResult_Is_Null() {
-			var response = new Response<object>(null);
 			Assert.Throws<ArgumentNullException>("result",
 				() => new Response<object>(result: null));
 		}
