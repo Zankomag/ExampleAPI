@@ -1,0 +1,45 @@
+﻿@page
+@model ExampleAPI.Web.Pages.OrderItem.IndexModel
+@{
+	ViewData["Title"] = "Page";
+}
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderItem[0].Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderItem[0].ItemPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderItem[0].Details)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.OrderItem) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Details)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
