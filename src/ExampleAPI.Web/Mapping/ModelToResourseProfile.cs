@@ -2,7 +2,7 @@
 using ExampleAPI.Data.Models;
 using ExampleAPI.Web.Resources;
 
-namespace Supermarket.API.Mapping {
+namespace ExampleAPI.Web.Mapping {
 	public class ModelToResourceProfile : Profile {
 		public ModelToResourceProfile() {
 			CreateMap<OrderItem, OrderItemResource>().ReverseMap();

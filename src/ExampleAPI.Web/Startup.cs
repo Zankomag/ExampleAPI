@@ -37,6 +37,8 @@ namespace ExampleAPI.Web {
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services) {
 
+			services.AddRazorPages();
+
 			string connection = Configuration.GetConnectionString("InternetShopConnectionString");
 			services.AddDbContext<InternetShopDbContext>(options => {
 				options.UseSqlite(connection);
@@ -139,7 +141,7 @@ namespace ExampleAPI.Web {
 								.SelectMany(x => x.Errors).Select(x => x.ErrorMessage));
 							return (ObjectResult)new Response<object>(messages);
 						}
-						return (ObjectResult)Response<object>.BadRequestResposne;
+						return (ObjectResult)Response<object>.BadRequestResponse;
 					};
 				});
 
@@ -147,9 +149,6 @@ namespace ExampleAPI.Web {
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
-			if (env.IsDevelopment()) {
-
-			}
 
 			app.UseSwagger();
 			app.UseSwaggerUI(c => {
@@ -171,6 +170,7 @@ namespace ExampleAPI.Web {
 
 			app.UseEndpoints(endpoints => {
 				endpoints.MapControllers();
+				endpoints.MapRazorPages();
 			});
 		}
 	}

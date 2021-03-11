@@ -35,11 +35,9 @@ namespace ExampleAPI.Repository {
 			if (asNoTracking) 
 				query = query.AsNoTracking();
 
-			if (includeProperties != null) {
-				foreach (var includeProperty in includeProperties.Split
-					(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)) {
-					query = query.Include(includeProperty);
-				}
+			if(includeProperties != null) {
+				query = includeProperties.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)
+					.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
 			}
 
 			if (filter != null) {
