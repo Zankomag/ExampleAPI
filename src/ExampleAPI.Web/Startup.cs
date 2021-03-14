@@ -24,6 +24,7 @@ using ExampleAPI.Web.Services;
 using ExampleAPI.Web.Extensions;
 using ExampleAPI.Web.Communication;
 using ExampleAPI.Web.Authorization;
+using ExampleAPI.Web.Mapping;
 using ExampleAPI.Web.Services.Abstractions;
 
 namespace ExampleAPI.Web {
@@ -125,7 +126,9 @@ namespace ExampleAPI.Web {
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 			services.AddScoped<IOrderItemService, OrderItemService>();
 
-			services.AddAutoMapper(typeof(Startup));
+			//Here we need to pass any type of assembly WHERE AutomapperProfile class is
+			// (better way - pass AutomapperProfile class itself)
+			services.AddAutoMapper(typeof(ModelToResourceProfile)); //(typeof(Startup)
 
 			services.AddCors();
 
