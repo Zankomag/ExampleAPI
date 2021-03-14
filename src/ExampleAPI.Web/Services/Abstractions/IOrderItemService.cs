@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace ExampleAPI.Web.Services.Abstractions {
 	public interface IOrderItemService {
 
+		//TODO Converting to response should be on UI layer itself not BLL!!!
 		Task<Response<OrderItem>> GetByIdAsync(int id);
 		Task<Response<IEnumerable<OrderItem>>> GetAllAsync();
 		Task<Response<IEnumerable<OrderItem>>> GetAllWithoutDetailsAsync();
